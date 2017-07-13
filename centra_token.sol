@@ -90,7 +90,7 @@ pragma solidity ^0.4.8;
       string public constant symbol = "Centra";
       string public constant name = "Centra token";
       uint8 public constant decimals = 18;      
-      uint256 maxTokens = 20000000*10**18; 
+      uint256 maxTokens = 40000000*10**18; 
       uint256 ownerSupply = maxTokens*3/10;
       uint256 _totalSupply = ownerSupply;  
       uint256 token_price = 1/400*10**18; 
