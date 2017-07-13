@@ -1,0 +1,25 @@
+## Nechesov Andrey http://fb.com/Nechesov
+
+Tokens are transfered while the crowdale is still running, a token holder that receives his token can start trading them instantly. 
+
+In first time users get bonuses for tokens. 
+
+Centra Token Sale Details:
+
+1) ETH = 400 CTR Tokens
+2) First 2 Days of Crowd Sale - 20% Bonus
+3) Days 3-7 of Crowd Sale - 10% Bonus
+4) First 300 Contributors with 10+ ETH - Centra Black Metal Card with Name Engraved & Packaging
+5) First 500 Contributors  with 1+ ETH - Centra Gold Card & Packaging
+
+
+
+Contract Rapid Transaction - it's simplest way for using debit card with Ether balance.
+Fast and easy for use. Instant payments on shops with debit card.
+
+Contract Rapid Transactions tested on Ropsten network:
+
+https://ropsten.etherscan.io/address/0xec68762ec0f79de09efd055e05da189ef284076d
+
+All functions checked!
+
