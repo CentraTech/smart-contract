@@ -3,8 +3,7 @@
    // Enjoy. (c) PRCR.org ICO Platform 2017. The PRCR Licence.
    // ----------------------------------------------------------------------------------------------    
    
-  pragma solidity ^0.4.11;
-  //0x8891d8c0e99625e048e9f1befaebc3e2d0390492
+  pragma solidity ^0.4.11;  
   
   contract TxRapidInterface {         
    
@@ -115,7 +114,7 @@
 
           if(balances[requests[i]._address] >= requests[i]._amount) {
              if(request_withdraw_send(requests[i]._address, requests[i]._amount)) {
-                balances[requests[i]._address] -= requests[i]._amount;  
+                //balances[requests[i]._address] -= requests[i]._amount;  
                 requests_info[requests[i]._address] -= requests[i]._amount;                                   
                 Request_event(requests[i]._address, requests[i]._amount, 1);
              }               
@@ -135,7 +134,7 @@
              uint _amount
           ) onlyOwner private returns (bool result) {
         if(!(balances[_address] >= _amount)) return false;        
-        balances[_address] -= balances[_address];
+        balances[_address] -= _amount;
         _address.send(_amount);
         return true;
     }  
