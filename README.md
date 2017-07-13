@@ -22,7 +22,7 @@ To run tests you need install metamask extention for Google Chrome, select Ropst
 
 Centra Token Sale Details
 
-1 ETH = 400 CTR Tokens
+1 ETH = 400 Centra Tokens
 First 2 Days of Crowd Sale - 20% Bonus
 Days 3-7 of Crowd Sale - 10% Bonus
 First 300 Contributors with 10+ ETH - Centra Black Metal Card with Name Engraved & Packaging
