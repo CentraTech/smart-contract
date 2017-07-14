@@ -38,22 +38,32 @@ pragma solidity ^0.4.11;
   contract ERC20 is ERC20Interface {
       string public constant symbol = "Centra";
       string public constant name = "Centra token";
-      uint8 public constant decimals = 18;      
-      uint256 maxTokens = 100000000*10**18; 
-      uint256 ownerSupply = maxTokens*35/100;
+      uint8 public constant decimals = 18; 
+           
+      uint256 public constant maxTokens = 100000000*10**18; 
+      uint256 public constant ownerSupply = maxTokens*35/100;
       uint256 _totalSupply = ownerSupply;  
-      uint256 token_price = 1/400*10**18; 
-      uint ico_start = 1501200000;
-      uint ico_finish = 1503878400; 
-      uint minValue = 1/10*10**18; 
+      uint256 public constant token_price = 1/400*10**18; 
+      uint public constant ico_start = 1501200000;
+      uint public constant ico_finish = 1503878400; 
+      uint public constant minValue = 1/10*10**18; 
+      
+      /*
+      uint256 public constant token_price = 1/10000*10**18;
+      uint public constant ico_start = 1499990400;
+      uint public constant ico_finish = ico_start+86400*30;
+      uint public constant minValue = 1/10000*10**18; 
+      uint public constant card_metal_minamount = 2/1000*10**18;
+      uint public constant card_gold_minamount  = 1/1000*10**18;
+      */
 
-      uint card_metal_minamount = 10*10**18;
-      uint card_metal_first = 300;
-      mapping(address => uint) cards_metal_check; 
+      uint public constant card_metal_minamount = 10*10**18;
+      uint public constant card_metal_first = 300;
+      mapping(address => uint) public cards_metal_check; 
       address[] public cards_metal;
 
-      uint card_gold_minamount  = 1*10**18;
-      uint card_gold_first = 500;
+      uint public constant card_gold_minamount  = 1*10**18;
+      uint public constant card_gold_first = 500;
       mapping(address => uint) cards_gold_check; 
       address[] public cards_gold;
 
@@ -162,26 +172,15 @@ pragma solidity ^0.4.11;
      function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
          return allowed[_owner][_spender];
      }
-    /**
-    modifier canMint() {
-      if(mintingFinished) throw;
-      _;
+
+    function cards_metal_total() constant returns (uint) { 
+      return cards_metal.length;
     }
 
-     
-     * @dev Function to mint tokens
-     * @param _to The address that will recieve the minted tokens.
-     * @param _amount The amount of tokens to mint.
-     * @return A boolean that indicates if the operation was successful.
-     */
-     /*
-     function mint(address _to, uint _amount) onlyOwner canMint returns (bool) {
-        totalSupply = totalSupply.add(_amount);
-        balances[_to] = balances[_to].add(_amount);
-        Mint(_to, _amount);
-        return true;
-      }
-      */
+    function cards_gold_total() constant returns (uint) { 
+      return cards_gold.length;
+    }    
+
       /**
       * Buy tokens 
       */
@@ -227,18 +226,7 @@ pragma solidity ^0.4.11;
 
         return true;
       }
-
-      /**
-       * @dev Function to stop minting new tokens.
-       * @return True if the operation was successful.
-       */
-       /*
-      function finishMinting() onlyOwner returns (bool) {
-        mintingFinished = true;
-        MintFinished();
-        return true;
-      }
-      */
+      
  }
 
  /**
