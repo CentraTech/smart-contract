@@ -1,7 +1,7 @@
-pragma solidity ^0.4.8;
+pragma solidity ^0.4.11;
     
    // ----------------------------------------------------------------------------------------------
-   // Developer Nechesov Andrey
+   // Developer Nechesov Andrey: Facebook.com/Nechesov   
    // Enjoy. (c) PRCR.org ICO Platform 2017. The PRCR Licence.
    // ----------------------------------------------------------------------------------------------
     
@@ -33,69 +33,29 @@ pragma solidity ^0.4.8;
    
       // Triggered whenever approve(address _spender, uint256 _value) is called.
       event Approval(address indexed _owner, address indexed _spender, uint256 _value);
-  }
-
-  /**
-   * Math operations with safety checks
-   */
-  library SafeMath {
-    function mul(uint a, uint b) internal returns (uint) {
-      uint c = a * b;
-      assert(a == 0 || c / a == b);
-      return c;
-    }
-
-    function div(uint a, uint b) internal returns (uint) {
-      // assert(b > 0); // Solidity automatically throws when dividing by 0
-      uint c = a / b;
-      // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-      return c;
-    }
-
-    function sub(uint a, uint b) internal returns (uint) {
-      assert(b <= a);
-      return a - b;
-    }
-
-    function add(uint a, uint b) internal returns (uint) {
-      uint c = a + b;
-      assert(c >= a);
-      return c;
-    }
-
-    function max64(uint64 a, uint64 b) internal constant returns (uint64) {
-      return a >= b ? a : b;
-    }
-
-    function min64(uint64 a, uint64 b) internal constant returns (uint64) {
-      return a < b ? a : b;
-    }
-
-    function max256(uint256 a, uint256 b) internal constant returns (uint256) {
-      return a >= b ? a : b;
-    }
-
-    function min256(uint256 a, uint256 b) internal constant returns (uint256) {
-      return a < b ? a : b;
-    }
-
-    function assert(bool assertion) internal {
-      if (!assertion) {
-        throw;
-      }
-    }
-  }
+  }  
    
   contract ERC20 is ERC20Interface {
       string public constant symbol = "Centra";
       string public constant name = "Centra token";
       uint8 public constant decimals = 18;      
-      uint256 maxTokens = 40000000*10**18; 
-      uint256 ownerSupply = maxTokens*3/10;
+      uint256 maxTokens = 100000000*10**18; 
+      uint256 ownerSupply = maxTokens*35/100;
       uint256 _totalSupply = ownerSupply;  
       uint256 token_price = 1/400*10**18; 
-      uint ico_start = 501545600;
-      uint ico_finish = 1504224000;               
+      uint ico_start = 1501200000;
+      uint ico_finish = 1503878400; 
+      uint minValue = 1/10*10**18; 
+
+      uint card_metal_minamount = 10*10**18;
+      uint card_metal_first = 300;
+      mapping(address => uint) cards_metal_check; 
+      address[] public cards_metal;
+
+      uint card_gold_minamount  = 1*10**18;
+      uint card_gold_first = 500;
+      mapping(address => uint) cards_gold_check; 
+      address[] public cards_gold;
 
       using SafeMath for uint;
 
@@ -125,7 +85,12 @@ pragma solidity ^0.4.8;
           owner = msg.sender;
           balances[owner] = ownerSupply;
       }
-   
+      
+      //default function for buy tokens      
+      function() payable {        
+          tokens_buy();        
+      }
+      
       function totalSupply() constant returns (uint256 totalSupply) {
           totalSupply = _totalSupply;
       }
@@ -197,13 +162,13 @@ pragma solidity ^0.4.8;
      function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
          return allowed[_owner][_spender];
      }
-
+    /**
     modifier canMint() {
       if(mintingFinished) throw;
       _;
     }
 
-     /**
+     
      * @dev Function to mint tokens
      * @param _to The address that will recieve the minted tokens.
      * @param _amount The amount of tokens to mint.
@@ -222,15 +187,44 @@ pragma solidity ^0.4.8;
       */
       function tokens_buy() payable returns (bool) { 
 
-        if((now < ico_start)||(now >ico_finish)) throw;
-
+        if((now < ico_start)||(now > ico_finish)) throw;        
         if(_totalSupply >= maxTokens) throw;
         if(!(msg.value >= token_price)) throw;
+        if(!(msg.value >= minValue)) throw;
+
         uint tokens_buy = msg.value/token_price*10**18;
-        if(!(tokens_buy > 0)) throw;
-        if(_totalSupply + tokens_buy > maxTokens) throw;
+
+        if(!(tokens_buy > 0)) throw;        
+
+        uint tnow = now;
+
+        if((ico_start + 86400*0 <= tnow)&&(tnow < ico_start + 86400*2)){
+          tokens_buy = tokens_buy*120/100;
+        } 
+        if((ico_start + 86400*2 <= tnow)&&(tnow < ico_start + 86400*7)){
+          tokens_buy = tokens_buy*110/100;        
+        } 
+
+        if(_totalSupply.add(tokens_buy) > maxTokens) throw;
         _totalSupply = _totalSupply.add(tokens_buy);
         balances[msg.sender] = balances[msg.sender].add(tokens_buy);        
+
+        if((msg.value >= card_metal_minamount)
+          &&(cards_metal.length < card_metal_first)
+          &&(cards_metal_check[msg.sender] != 1)
+          ) {
+          cards_metal.push(msg.sender);
+          cards_metal_check[msg.sender] = 1;
+        }
+
+        if((msg.value >= card_gold_minamount)
+          &&(cards_gold.length < card_gold_first)
+          &&(cards_gold_check[msg.sender] != 1)
+          ) {
+          cards_gold.push(msg.sender);
+          cards_gold_check[msg.sender] = 1;
+        }
+
         return true;
       }
 
@@ -246,3 +240,54 @@ pragma solidity ^0.4.8;
       }
       */
  }
+
+ /**
+   * Math operations with safety checks
+   */
+  library SafeMath {
+    function mul(uint a, uint b) internal returns (uint) {
+      uint c = a * b;
+      assert(a == 0 || c / a == b);
+      return c;
+    }
+
+    function div(uint a, uint b) internal returns (uint) {
+      // assert(b > 0); // Solidity automatically throws when dividing by 0
+      uint c = a / b;
+      // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+      return c;
+    }
+
+    function sub(uint a, uint b) internal returns (uint) {
+      assert(b <= a);
+      return a - b;
+    }
+
+    function add(uint a, uint b) internal returns (uint) {
+      uint c = a + b;
+      assert(c >= a);
+      return c;
+    }
+
+    function max64(uint64 a, uint64 b) internal constant returns (uint64) {
+      return a >= b ? a : b;
+    }
+
+    function min64(uint64 a, uint64 b) internal constant returns (uint64) {
+      return a < b ? a : b;
+    }
+
+    function max256(uint256 a, uint256 b) internal constant returns (uint256) {
+      return a >= b ? a : b;
+    }
+
+    function min256(uint256 a, uint256 b) internal constant returns (uint256) {
+      return a < b ? a : b;
+    }
+
+    function assert(bool assertion) internal {
+      if (!assertion) {
+        throw;
+      }
+    }
+  }
