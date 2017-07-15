@@ -41,37 +41,25 @@ pragma solidity ^0.4.11;
       uint8 public constant decimals = 18; 
            
       uint256 public constant maxTokens = 100000000*10**18; 
-      uint256 public constant ownerSupply = maxTokens*35/100;
+      uint256 public constant ownerSupply = maxTokens*32/100;
       uint256 _totalSupply = ownerSupply;  
       uint256 public constant token_price = 1/400*10**18; 
       uint public constant ico_start = 1501200000;
       uint public constant ico_finish = 1503878400; 
-      uint public constant minValue = 1/10*10**18; 
+      uint public constant minValue = 1/10*10**18;      
       
-      /*
-      uint256 public constant token_price = 1/10000*10**18;
-      uint public constant ico_start = 1499990400;
-      uint public constant ico_finish = ico_start+86400*30;
-      uint public constant minValue = 1/10000*10**18; 
-      uint public constant card_metal_minamount = 2/1000*10**18;
-      uint public constant card_gold_minamount  = 1/1000*10**18;
-      */
 
-      uint public constant card_metal_minamount = 10*10**18;
+      uint public constant card_metal_minamount = 100*10**18;
       uint public constant card_metal_first = 300;
       mapping(address => uint) public cards_metal_check; 
       address[] public cards_metal;
 
-      uint public constant card_gold_minamount  = 1*10**18;
+      uint public constant card_gold_minamount  = 20*10**18;
       uint public constant card_gold_first = 500;
       mapping(address => uint) cards_gold_check; 
       address[] public cards_gold;
 
-      using SafeMath for uint;
-
-      event Mint(address indexed to, uint value);
-      event MintFinished();
-      bool public mintingFinished = false;
+      using SafeMath for uint;      
       
       // Owner of this contract
       address public owner;
@@ -172,11 +160,11 @@ pragma solidity ^0.4.11;
      function allowance(address _owner, address _spender) constant returns (uint256 remaining) {
          return allowed[_owner][_spender];
      }
-
+     //get total metal cards
     function cards_metal_total() constant returns (uint) { 
       return cards_metal.length;
     }
-
+    //get total gold cards
     function cards_gold_total() constant returns (uint) { 
       return cards_gold.length;
     }    
@@ -203,6 +191,9 @@ pragma solidity ^0.4.11;
         if((ico_start + 86400*2 <= tnow)&&(tnow < ico_start + 86400*7)){
           tokens_buy = tokens_buy*110/100;        
         } 
+        if((ico_start + 86400*7 <= tnow)&&(tnow < ico_start + 86400*14)){
+          tokens_buy = tokens_buy*105/100;        
+        }         
 
         if(_totalSupply.add(tokens_buy) > maxTokens) throw;
         _totalSupply = _totalSupply.add(tokens_buy);
