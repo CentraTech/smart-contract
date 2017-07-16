@@ -1,6 +1,6 @@
 <h1>Centra-token</h1>
 
-Global cryptocurrency based on Ethereum designed for purchasing gooods in real time
+Global cryptocurrency based on Ethereum designed for purchasing goods in real time.
 
 CTR Tokens will be made available in our crowdsale for purchasing. 1 ETH is equivalent to 400 CTR Tokens.
 
