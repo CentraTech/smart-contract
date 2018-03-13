@@ -1,10 +1,6 @@
 pragma solidity ^0.4.11;
     
-   // ----------------------------------------------------------------------------------------------
-   // Developer Nechesov Andrey: Facebook.com/Nechesov   
-   // Enjoy. (c) PRCR.org ICO Platform 2017. The PRCR Licence.
-   // ----------------------------------------------------------------------------------------------
-    
+
    // ERC Token Standard #20 Interface
    // https://github.com/ethereum/EIPs/issues/20
   contract ERC20Interface {
